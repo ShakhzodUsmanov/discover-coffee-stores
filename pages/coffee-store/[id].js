@@ -54,6 +54,8 @@ const CoffeeStore = (initialProps) => {
     fetcher
   );
 
+  console.log({ data });
+
   useEffect(() => {
     if (data && data.length > 1) {
       setCoffeeStore(data[0]);
@@ -78,9 +80,9 @@ const CoffeeStore = (initialProps) => {
           neighbourhood: neighbourhood || "",
           address: adress || "",
         }),
-      }).then(res => res.json());
+      }).then((res) => res.json());
 
-      // const dbCoffeeStore = await response.json();
+      const dbCoffeeStore = await response.json();
     } catch (err) {
       console.error("Error creating coffee store", err);
     }
@@ -113,8 +115,8 @@ const CoffeeStore = (initialProps) => {
   }
 
   const handleUpvoteButton = async () => {
-    let upVoitin = voitingCount + 1 
-    setVoitingCount(upVoitin)
+    let upVoitin = votingCount + 1 
+    setVotingCount(upVoitin)
     try {
       const response = await fetch("/api/favouriteCoffeeStoreById", {
         method: "PUT",
@@ -141,7 +143,12 @@ const CoffeeStore = (initialProps) => {
     return <div>Something went wrong retrieving coffee store page</div>;
   }
 
-  const { name, adress: adress, neighbourhood, imgUrl } = coffeeStore;
+  const {
+    name = "",
+    adress: adress = "",
+    neighbourhood = "",
+    imgUrl = "",
+  } = coffeeStore;
 
   return (
     <div className={styles.layout}>
