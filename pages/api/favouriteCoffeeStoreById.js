@@ -15,13 +15,13 @@ const favouriteCoffeeStoreById = async (req, res) => {
         if (records.length !== 0) {
           const record = records[0];
 
-          const calculateVoting = parseInt(record.voting) + 1;
+          const calculateVoiting = parseInt(record.voiting) + 1;
 
           const updateRecord = await table.update([
             {
               id: record.recordId,
               fields: {
-                voting: calculateVoting,
+                voiting: calculateVoiting,
               },
             },
           ]);
@@ -39,7 +39,7 @@ const favouriteCoffeeStoreById = async (req, res) => {
       }
     } catch (error) {
       res.status(500);
-      res.json({ message: "Error upvoting coffee store", error });
+      res.json({ message: "Error upvoiting coffee store", error });
     }
   }
 };
