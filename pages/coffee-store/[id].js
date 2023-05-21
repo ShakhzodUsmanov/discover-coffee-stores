@@ -25,7 +25,7 @@ export async function getStaticProps(staticProps) {
 
 export async function getStaticPaths() {
   const coffeeStoreData = await fetchCoffeeStores();
-  const paths = coffeeStoreData.map((coffeeStore) => {
+  const paths = coffeeStoreData?.map((coffeeStore) => {
     return {
       params: {
         id: coffeeStore.id?.toString(),
@@ -42,7 +42,7 @@ const CoffeeStore = (initialProps) => {
   const [coffeeStore, setCoffeeStore] = useState(
     initialProps.coffeeStore || {}
   );
-  const [votingCount, setVotingCount] = useState(0);
+  const [voitingCount, setVoitingCount] = useState(0);
   const router = useRouter();
   const id = router.query.id;
   const {
@@ -57,13 +57,13 @@ const CoffeeStore = (initialProps) => {
   useEffect(() => {
     if (data && data.length > 1) {
       setCoffeeStore(data[0]);
-      setVotingCount(data[0].voiting);
+      setVoitingCount(data[0].voiting);
     }
   }, [data]);
 
   const handleCreateCoffeeStore = async (coffeeStore) => {
     try {
-      const { id, name, voting, imgUrl, neighbourhood, adress } = coffeeStore;
+      const { id, name, voiting, imgUrl, neighbourhood, adress } = coffeeStore;
       console.log(coffeeStore);
       const response = await fetch("/api/createCoffeeStore", {
         method: "POST",
@@ -73,7 +73,7 @@ const CoffeeStore = (initialProps) => {
         body: JSON.stringify({
           id,
           name,
-          voting: 0,
+          voiting: 0,
           imgUrl,
           neighbourhood: neighbourhood || "",
           address: adress || "",
@@ -113,8 +113,8 @@ const CoffeeStore = (initialProps) => {
   }
 
   const handleUpvoteButton = async () => {
-    let upVoitin = votingCount + 1 
-    setVotingCount(upVoitin)
+    let upVoitin = voitingCount + 1 
+    setVoitingCount(upVoitin)
     try {
       const response = await fetch("/api/favouriteCoffeeStoreById", {
         method: "PUT",
@@ -129,11 +129,11 @@ const CoffeeStore = (initialProps) => {
       const dbCoffeeStore = await response.json();
 
       if (dbCoffeeStore && dbCoffeeStore.length > 0) {
-        let count = votingCount + 1;
-        setVotingCount(count);
+        let count = voitingCount + 1;
+        setVoitingCount(count);
       }
     } catch (err) {
-      console.error("Error upvoting the coffee store", err);
+      console.error("Error upvoiting the coffee store", err);
     }
   };
 
@@ -194,7 +194,7 @@ const CoffeeStore = (initialProps) => {
               height={24}
               alt="icon"
             />
-            <p className={styles.text}>{votingCount}</p>
+            <p className={styles.text}>{voitingCount}</p>
           </div>
 
           <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
