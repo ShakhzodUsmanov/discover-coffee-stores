@@ -25,7 +25,7 @@ export async function getStaticProps(staticProps) {
 
 export async function getStaticPaths() {
   const coffeeStoreData = await fetchCoffeeStores();
-  const paths = coffeeStoreData.map((coffeeStore) => {
+  const paths = coffeeStoreData?.map((coffeeStore) => {
     return {
       params: {
         id: coffeeStore.id?.toString(),
@@ -115,8 +115,8 @@ const CoffeeStore = (initialProps) => {
   }
 
   const handleUpvoteButton = async () => {
-    let upVoitin = voitingCount + 1;
-    setVoitingCount(upVoitin);
+    let upVoitin = votingCount + 1 
+    setVotingCount(upVoitin)
     try {
       const response = await fetch("/api/favouriteCoffeeStoreById", {
         method: "PUT",
