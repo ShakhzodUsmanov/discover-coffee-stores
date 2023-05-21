@@ -115,8 +115,8 @@ const CoffeeStore = (initialProps) => {
   }
 
   const handleUpvoteButton = async () => {
-    let upVoitin = votingCount + 1 
-    setVotingCount(upVoitin)
+    let upVoitin = votingCount + 1;
+    setVotingCount(upVoitin);
     try {
       const response = await fetch("/api/favouriteCoffeeStoreById", {
         method: "PUT",
@@ -153,6 +153,10 @@ const CoffeeStore = (initialProps) => {
   return (
     <div className={styles.layout}>
       <Head>
+        <meta
+          name="description"
+          content="allows you to discover coffee stores near you"
+        />
         <title>{name}</title>
       </Head>
 
