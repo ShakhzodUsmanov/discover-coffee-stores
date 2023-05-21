@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "airtable": "^0.11.1",
+    "airtable": "^0.12.1",
     "classnames": "^2.3.2",
     "next": "^12.0.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "run": "^1.4.0",
-    "swr": "^1.2.0",
+    "swr": "^2.1.5",
     "unsplash-js": "^7.0.18"
   },
   "devDependencies": {

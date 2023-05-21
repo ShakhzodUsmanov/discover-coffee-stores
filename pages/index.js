@@ -23,7 +23,6 @@ export default function Home(props) {
 
   const [coffeeStoresNearByError, setCoffeeStoresNearByError] = useState(null);
   const { dispatch, state } = useContext(StoreContext);
-  console.log(state);
   const latLong = state.latLong;
   const { coffeeStores: coffeeStoresNearBy } = state;
 
@@ -34,11 +33,17 @@ export default function Home(props) {
   async function fetchinDataNearStores(latLong) {
     if (latLong) {
       try {
-        const fetchedCoffeeStores = await fetchCoffeeStores(latLong, 30);
+        const response = await fetch(
+          `/api/getCoffeeStoresByLocation?latlong=${latLong}&limit=30`
+        );
+
+        const coffeeStores = await response.json()
+
         dispatch({
           type: ACTION_TYPES.SET_COFFEE_STORES,
-          payload: { coffeeStores: fetchedCoffeeStores },
+          payload: { coffeeStores },
         });
+        setCoffeeStoresNearByError('');
       } catch (error) {
         console.log(error.message);
         setCoffeeStoresNearByError(error.message);

@@ -1,7 +1,7 @@
 import {
   table,
-  getMinifiedRecords,
   findRecordByFilter,
+  getMinifiedRecords,
 } from "../../lib/airtable";
 
 const createCoffeeStore = async (req, res) => {
@@ -48,6 +48,11 @@ const createCoffeeStore = async (req, res) => {
       res.status(500);
       res.json({ message: "Error creating or finding a store", err });
     }
+  }
+  else{
+    console.error("Error creating or finding a store", err);
+    res.status(500);
+    res.json({ message: "Error creating or finding a store", err });
   }
 };
 
