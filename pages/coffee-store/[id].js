@@ -42,7 +42,7 @@ const CoffeeStore = (initialProps) => {
   const [coffeeStore, setCoffeeStore] = useState(
     initialProps.coffeeStore || {}
   );
-  const [votingCount, setVotingCount] = useState(0);
+  const [voitingCount, setVoitingCount] = useState(0);
   const router = useRouter();
   const id = router.query.id;
   const {
@@ -54,16 +54,18 @@ const CoffeeStore = (initialProps) => {
     fetcher
   );
 
+  console.log({ data });
+
   useEffect(() => {
     if (data && data.length > 1) {
       setCoffeeStore(data[0]);
-      setVotingCount(data[0].voiting);
+      setVoitingCount(data[0].voiting);
     }
   }, [data]);
 
   const handleCreateCoffeeStore = async (coffeeStore) => {
     try {
-      const { id, name, voting, imgUrl, neighbourhood, adress } = coffeeStore;
+      const { id, name, voiting, imgUrl, neighbourhood, adress } = coffeeStore;
       console.log(coffeeStore);
       const response = await fetch("/api/createCoffeeStore", {
         method: "POST",
@@ -73,14 +75,14 @@ const CoffeeStore = (initialProps) => {
         body: JSON.stringify({
           id,
           name,
-          voting: 0,
+          voiting: 0,
           imgUrl,
           neighbourhood: neighbourhood || "",
           address: adress || "",
         }),
-      }).then(res => res.json());
+      }).then((res) => res.json());
 
-      // const dbCoffeeStore = await response.json();
+      const dbCoffeeStore = await response.json();
     } catch (err) {
       console.error("Error creating coffee store", err);
     }
@@ -113,8 +115,8 @@ const CoffeeStore = (initialProps) => {
   }
 
   const handleUpvoteButton = async () => {
-    let upVoitin = votingCount + 1 
-    setVotingCount(upVoitin)
+    let upVoitin = voitingCount + 1;
+    setVoitingCount(upVoitin);
     try {
       const response = await fetch("/api/favouriteCoffeeStoreById", {
         method: "PUT",
@@ -129,11 +131,11 @@ const CoffeeStore = (initialProps) => {
       const dbCoffeeStore = await response.json();
 
       if (dbCoffeeStore && dbCoffeeStore.length > 0) {
-        let count = votingCount + 1;
-        setVotingCount(count);
+        let count = voitingCount + 1;
+        setVoitingCount(count);
       }
     } catch (err) {
-      console.error("Error upvoting the coffee store", err);
+      console.error("Error upvoiting the coffee store", err);
     }
   };
 
@@ -141,7 +143,12 @@ const CoffeeStore = (initialProps) => {
     return <div>Something went wrong retrieving coffee store page</div>;
   }
 
-  const { name, adress: adress, neighbourhood, imgUrl } = coffeeStore;
+  const {
+    name = "",
+    adress: adress = "",
+    neighbourhood = "",
+    imgUrl = "",
+  } = coffeeStore;
 
   return (
     <div className={styles.layout}>
@@ -194,7 +201,7 @@ const CoffeeStore = (initialProps) => {
               height={24}
               alt="icon"
             />
-            <p className={styles.text}>{votingCount}</p>
+            <p className={styles.text}>{voitingCount}</p>
           </div>
 
           <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
